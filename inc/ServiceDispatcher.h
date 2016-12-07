@@ -11,14 +11,16 @@
 #include <stdint.h>
 #include <stddef.h>
 
-typedef enum
+#define TEST_MAKE_HUMAN_READABLE    (1)
+
+typedef enum        //TODO: Not the correct place to define this, should be somewhere eg "Services.h"
 {
     eTOPIC_GENERAL = 0,
     eTOPIC_RGB_CLIENT,
     eTOPIC_RGB_SERVER,
 } eTOPIC_t;
 
-#define SDQ_Q_TOPIC         (10)
+#define SDQ_Q_TOPIC         (15)
 #define SDQ_Q_DATA          (20)
 #define SD_NOF_TOPICS       (10)
 

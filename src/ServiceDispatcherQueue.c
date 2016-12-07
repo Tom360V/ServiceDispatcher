@@ -126,29 +126,41 @@ void SDQ_Thread()
     sdq_CheckForActions(&fifo_recv, sdqfpToService);
 }
 
-SDHandle_t SDQ_AddToRecvQueue(uint8_t *topic, uint8_t topicLength, uint8_t *data, uint8_t dataLength, fpDelivered_t cbDelivered)
+SDHandle_t SDQ_AddToRecvQueue(char *topic, uint8_t *data, uint8_t dataLength, fpDelivered_t cbDelivered)
 {
-    return sdq_AddToQueue(&fifo_recv, topic, topicLength, data, dataLength, cbDelivered);
+    uint8_t topicLength = strlen(topic);
+    if( (topicLength == 3) &&
+        (topic[1] == '/') )
+    {
+        //TODO: Extend to support longer topics!
+        //TODO: Now only 0 till 9 are valid services!
+#ifdef TEST_MAKE_HUMAN_READABLE
+        topic[0] = topic[0]-'0';
+        topic[2] = topic[2]-'0';
+#endif
+    }
+    else
+    {
+        char *p = strchr(topic, (int)'/');
+        if(NULL != p)
+        {
+            *(p + 1) -= '0';
+        }
+    }
+    return sdq_AddToQueue(&fifo_recv, (uint8_t*)topic, topicLength, data, dataLength, cbDelivered);
 }
 
 SDHandle_t SDQ_AddToSendQueue(eTOPIC_t topic, uint8_t action, uint8_t *data, uint8_t dataLength, fpDelivered_t cbDelivered)
 {
-    uint8_t t[3];
+    uint8_t t[4] = {0x0};
     t[0] = (char)topic;
     t[1] = '/';
     t[2] = action;
 
+#ifdef TEST_MAKE_HUMAN_READABLE
+    t[0] = t[0] + '0';
+    t[2] = t[2] + '0';
+#endif
+
     return sdq_AddToQueue(&fifo_send, t, 3, data, dataLength, cbDelivered);
 }
-
-/*
-int8_t SDQ_DeleteFromRecvQueue(SDHandle_t sdqHandle)
-{
-    return sdq_DeleteFromQueue(SDQ_ID_RECV, sdqHandle);
-}
-
-int8_t SDQ_DeleteFromSendQueue(SDHandle_t sdqHandle)
-{
-    return sdq_DeleteFromQueue(SDQ_ID_RECV, sdqHandle);
-}
-*/

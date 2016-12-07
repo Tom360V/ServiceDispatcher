@@ -83,14 +83,14 @@ static int8_t sdr_SearchServiceByTopicName(char *topicName)
  */
 int8_t sdr_ParseTopic(char *topic, uint8_t *action)
 {
-    action = (uint8_t*) strchr(topic, (int)'/');
-    if(NULL != action)
+    char *p = strchr(topic, (int)'/');
+    if(NULL != p)
     {
-        *action = 0;
-        action += 1;
+        *p = 0;
+        *action = *(p + 1);
+        return 1;
     }
-
-    return (action!=NULL);
+    return 0;
 }
 
 /******************************************************************************
@@ -102,7 +102,6 @@ int8_t sdr_ParseTopic(char *topic, uint8_t *action)
  */
 void   SDR_Init()
 {
-
 }
 
 /******************************************************************************
@@ -124,6 +123,7 @@ void SDR_SubscribeService(RemoteFunctionItem_t *pActionList, uint8_t nofActions,
         srvs.services[srvs.nofServices].topicName   = topicName;
         srvs.services[srvs.nofServices].nofActions  = nofActions;
         srvs.nofServices++;
+//        LOG_INFO("Subscribe %s", topicName);
     }
     else
     {
@@ -150,15 +150,14 @@ int8_t SDR_Rout(SDHandle_t handle, uint8_t *topic, uint8_t topicLength, uint8_t 
     RemoteFunctionItem_t *pActionList;
 
     uint8_t action;
-    if( (topicLength==3) &&
-        (topic[1]=='/') )
+    if(topicLength==3)
     {
         action = topic[2];
         idxService = sdr_SearchServiceByTopicId((eTOPIC_t)topic[0]);
     }
     else if(topicLength >3)
     {
-        if(0 == sdr_ParseTopic((char*)topic, &action))
+        if(1 == sdr_ParseTopic((char*)topic, &action))
         {
             idxService = sdr_SearchServiceByTopicName((char*)topic);
         }
