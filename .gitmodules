@@ -1,3 +1,0 @@
-[submodule "external/fifo"]
-	path = external/fifo
-	url = https://github.com/spoorcc/fifo.git
