@@ -1,6 +1,6 @@
 # ServiceDispatcher
 
-[![Build Status](https://travis-ci.org/spoorcc/ServiceDispatcher.svg?branch=master)](https://travis-ci.org/spoorcc/ServiceDispatcher)
+[![Build Status](https://travis-ci.org/spoorcc/ServiceDispatcher.svg?branch=master)](https://travis-ci.org/Tom360V/ServiceDispatcher)
 
 Service Dispatcher
 
