@@ -5,6 +5,8 @@ addons:
   apt:
     packages:
       - cmake
+      - check
+      - subunit
 
 compiler:
   - gcc
@@ -15,3 +17,4 @@ script:
   - cd bld
   - cmake ..
   - make
+  - make test
