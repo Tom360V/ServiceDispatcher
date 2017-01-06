@@ -13,6 +13,7 @@ compiler:
   - clang
 
 script:
+  - cd test
   - mkdir -p bld
   - cd bld
   - cmake ..

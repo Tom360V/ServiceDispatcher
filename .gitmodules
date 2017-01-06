@@ -1,3 +1,3 @@
-[submodule "external/fifo"]
-	path = external/fifo
-	url = https://github.com/tom360v/fifo
+[submodule "test/external/fifo"]
+	path = test/external/fifo
+	url = http://github.com/tom360v/fifo
