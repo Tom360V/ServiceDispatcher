@@ -11,4 +11,4 @@ set(srcs src/ServiceDispatcherQueue.c
 
 #Add Library
 add_library(ServiceDispatcher SHARED ${srcs})
-target_link_libraries(ServiceDispatcher FIFO)
+target_link_libraries(ServiceDispatcher fifo)
