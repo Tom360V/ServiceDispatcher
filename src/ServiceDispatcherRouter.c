@@ -104,6 +104,33 @@ void   SDR_Init()
 {
 }
 
+void SDR_SubscribeAllServices(fpSubscribeToTopic fpSubscribe)
+{
+    char topic_short[4] = {0x00, '/', '+', 0x0};
+    char topic_long [SDQ_Q_TOPIC];
+    char *p;
+    int8_t length;
+    int8_t idx;
+
+    for(idx = 0; idx < srvs.nofServices; idx++)
+    {
+        //subscribe to short topic
+        topic_short[0] = srvs.services[idx].topic;
+#ifdef TEST_MAKE_HUMAN_READABLE
+        topic_short[0] += '0';
+#endif
+        fpSubscribe(topic_short);
+
+        //subscribe to human readable topic
+        strcpy(topic_long, srvs.services[idx].topicName);
+        length = strlen(topic_long);
+        p = topic_long;
+        p += (length > SDQ_Q_TOPIC-2)?SDQ_Q_TOPIC-2:length;
+        memcpy(p, "/+", 2);
+
+        fpSubscribe(topic_long);
+    }
+}
 /******************************************************************************
  * SDR_SubscribeService
  * Add new services to our service list
