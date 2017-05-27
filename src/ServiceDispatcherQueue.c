@@ -14,7 +14,7 @@
  *****************************************************************************/
 #define SDQ_ID_SEND         (0)
 #define SDQ_ID_RECV         (1)
-#define SDQ_FIFO_SIZE       (10)
+#define SDQ_FIFO_SIZE       (4)
 
 #define MIN(a,b)            ((a<b)?a:b)
 
@@ -59,11 +59,11 @@ static SDHandle_t sdq_AddToQueue(fifo_t *pfifo, uint8_t *topic, uint8_t topicLen
         item.cbDeliverd = *cbDelivered;
 
         item.topicLength = MIN(topicLength, SDQ_Q_TOPIC);
-        memset(item.topic, 0x0,   item.topicLength);
+        //memset(item.topic, 0x0,   item.topicLength);
         memcpy(item.topic, topic, item.topicLength);
 
         item.dataLength  = MIN(dataLength,  SDQ_Q_DATA);
-        memset(item.data, 0x0,  item.dataLength);
+        //memset(item.data, 0x0,  item.dataLength);
         memcpy(item.data, data, item.dataLength);
 
         sdqHandle = FIFO_AddItem(pfifo, (void*)&item);
@@ -89,7 +89,7 @@ void sdq_CheckForActions(fifo_t *pfifo, fpSDQ_SendTo_t fpSendTo)
             else
             {
                 //did not succeed to handle this item, so put it back in the fifo
-                FIFO_AddItem(pfifo, (void*)&item);
+                //FIFO_AddItem(pfifo, (void*)&item);
             }
         }
     }

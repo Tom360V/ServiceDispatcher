@@ -102,6 +102,7 @@ int8_t sdr_ParseTopic(char *topic, uint8_t *action)
  */
 void   SDR_Init()
 {
+    srvs.nofServices = 0;
 }
 
 void SDR_SubscribeAllServices(fpSubscribeToTopic fpSubscribe)
@@ -126,7 +127,7 @@ void SDR_SubscribeAllServices(fpSubscribeToTopic fpSubscribe)
         length = strlen(topic_long);
         p = topic_long;
         p += (length > SDQ_Q_TOPIC-2)?SDQ_Q_TOPIC-2:length;
-        memcpy(p, "/+", 2);
+        memcpy(p, "/+\0", 3);
 
         fpSubscribe(topic_long);
     }
